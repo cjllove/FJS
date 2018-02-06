@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+
+    <link href="../f/f.css" rel="stylesheet" />
+    <link href="../res/css/common.css" rel="stylesheet" />
+    <meta name="sourcefiles" content="../index.html;../res/css/index.css;../res/js/index.js;../res/js/common.js" />
+
+    <style>
+        body {
+            padding: 10px;
+        }
+
+        .page-header {
+            margin: 0 0 12px;
+            border-bottom: 1px dotted #e2e2e2;
+            padding-bottom: 16px;
+            padding-top: 7px;
+        }
+
+            .page-header h1 {
+                padding: 0;
+                margin: 0 8px;
+                font-size: 24px;
+                font-weight: lighter;
+                color: #2679b5;
+            }
+
+                .page-header h1 small {
+                    margin: 0 6px;
+                    font-size: 14px;
+                    font-weight: normal;
+                    color: #8089a0;
+                }
+
+
+
+        .f-tabstrip.f-simple .f-icon-home {
+            color: #69aa46 !important;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0 4px;
+            font-size: 12px;
+            line-height: 15px;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            background-color: #999;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+
+        .badge-danger {
+            background-color: #d15b47 !important;
+        }
+
+        .largepanelheader > .f-panel-header {
+            background-color: #fff;
+        }
+
+            .largepanelheader > .f-panel-header .f-panel-icon,
+            .largepanelheader > .f-panel-header .f-panel-title-text {
+                color: #478fca;
+            }
+
+            .largepanelheader > .f-panel-header .f-panel-title-text {
+                font-size: 20px;
+                line-height: 28px;
+            }
+
+        .largepanelheader.green > .f-panel-header .f-panel-icon,
+        .largepanelheader.green > .f-panel-header .f-panel-title-text {
+            color: #69aa46;
+        }
+
+        .largepanelheader.orange > .f-panel-header .f-panel-icon,
+        .largepanelheader.orange > .f-panel-header .f-panel-title-text {
+            color: #ff892a;
+        }
+
+        .largepanelheader.purple > .f-panel-header .f-panel-icon,
+        .largepanelheader.purple > .f-panel-header .f-panel-title-text {
+            color: #892e65;
+        }
+
+
+
+        .accordionpane1 .f-panel-icon,
+        .accordionpane1 .f-panel-title-text {
+            color: #892e65 !important;
+        }
+
+        .accordionpane2 .f-panel-icon,
+        .accordionpane2 .f-panel-title-text {
+            color: #2E8965 !important;
+        }
+
+        .accordionpane3 .f-panel-icon,
+        .accordionpane3 .f-panel-title-text {
+            color: #F2BB46 !important;
+        }
+    </style>
+
+
+</head>
+<body>
+    <script src="../f/f.js"></script>
+    <script src="../res/js/common.js"></script>
+    <script>
+        F.ready(function () {
+            F.ui({
+                type: 'panel', renderTo: document.body, bodyPadding: 10, border: false, isViewPort: true, header: false,
+                layout: {
+                    childMargin: '0 10 5 0', type: 'hbox'
+                },
+                items: [{
+                    type: 'panel', border: false, header: false, flex: 1, layout: 'vbox',
+                    items: [{
+                        type: 'tabstrip', cls: 'f-tabstrip-theme-simple', tabPosition: 'top', activeTabIndex: 0, flex: 1, marginBottom: 10,
+                        items: [{
+                            type: 'tab', title: '标签二<span class=\'badge badge-danger\'>4</span>',
+                            items: [{
+                                type: 'label', value: '第三个标签的内容'
+                            }]
+                        }]
+                    }, {
+                        type: 'panel', cls: 'largepanelheader', border: false, title: '手风琴控件', iconFont: 'align-justify', header: false, flex: 1, layout: 'fit',
+                        items: [{
+                            type: 'accordion', layout: 'accordion', collapsible: true, header: false, activePaneIndex: 1,
+                            items: [{
+                                type: 'accordionpane', cls: 'accordionpane1', collapsed: true, title: '面板一', iconFont: 'f-iconfont-tag',
+                                items: [{
+                                    type: 'label', value: '面板一中的文本'
+                                }]
+                            }, {
+                                type: 'accordionpane', cls: 'accordionpane2', title: '面板二', iconFont: 'f-iconfont-tag',
+                                items: [{
+                                    type: 'label', value: '面板二中的文本'
+                                }]
+                            }, {
+                                type: 'accordionpane', cls: 'accordionpane3', collapsed: true, title: '面板三', iconFont: 'f-iconfont-tag',
+                                items: [{
+                                    type: 'label', value: '面板三中的文本'
+                                }]
+                            }]
+                        }]
+                    }]
+                }, {
+                    type: 'panel', border: false, header: false, flex: 1, layout: 'vbox',
+                    items: [{
+                        type: 'tabstrip', cls: 'f-tabstrip-theme-simple', tabPosition: 'bottom', activeTabIndex: 0, flex: 1, marginBottom: 10,
+                        items: [{
+                            type: 'tab', title: '标签二<span class=\'badge badge-danger\'>4</span>',
+                            items: [{
+                                type: 'label', value: '第三个标签的内容'
+                            }]
+                        }]
+                    }, {
+                        type: 'panel', cls: 'largepanelheader orange', border: false, title: '手风琴控件', iconFont: 'align-justify', header: false, flex: 1, layout: 'fit',
+                        items: [{
+                            type: 'accordion', cls: 'f-accordion-theme-simple', layout: 'accordion', border: true, collapsible: true, header: false, activePaneIndex: 1,
+                            items: [{
+                                type: 'accordionpane', cls: 'accordionpane1', html: '面板一中的文本<br/><br/><br/><br/>', collapsed: true, title: '面板一', iconFont: 'f-iconfont-tag'
+                            }, {
+                                type: 'accordionpane', cls: 'accordionpane2', html: '面板二中的文本<br/><br/>', title: '面板二', iconFont: 'f-iconfont-tag'
+                            }, {
+                                type: 'accordionpane', cls: 'accordionpane3', html: '面板三中的文本<br/><br/>', collapsed: true, title: '面板三', iconFont: 'f-iconfont-tag'
+                            }]
+                        }]
+                    }]
+                }]
+            });
+        });
+    </script>
+</body>
+</html>
