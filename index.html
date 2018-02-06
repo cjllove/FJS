@@ -135,7 +135,7 @@
 
             // 顶部 - 当前用户头像
             F.ui({
-                type: 'button', renderTo: '#userprofile_wrap', cls: 'userpicaction', defaultState: false, defaultCorner: false, text: '三生石上', icon: './res/images/my_face_80.jpg',
+                type: 'button', renderTo: '#userprofile_wrap', cls: 'userpicaction', defaultState: false, defaultCorner: false, text: '咳咳', icon: './res/images/my_face_80.jpg',
                 menu: {
                     type: 'menu',
                     listeners: {
@@ -222,32 +222,7 @@
 
             // 中间 - 选项卡右侧工具图标列表
             var mainTabStripTools = [{
-                type: 'tool', cls: 'tabtool viewcode', tooltip: '查看源代码', iconFont: 'f-iconfont-code', marginRight: 5,
-                handler: function (event) {
-                    var mainTabStrip = F.ui.mainTabStrip;
-                    var windowSourceCode = F.ui.sourcecodewindow;
-
-
-                    var activeTab = mainTabStrip.getActiveTab();
-                    var iframeWnd, iframeUrl;
-                    if (activeTab.iframe) {
-
-                        iframeWnd = activeTab.getIFrameWindow();
-                        iframeUrl = activeTab.getIFrameUrl();
-
-                    } else {
-                        iframeWnd = window;
-                        iframeUrl = './index.html';
-                    }
-
-                    var files = [iframeUrl];
-                    var sourcefilesNode = $(iframeWnd.document).find('head meta[name=sourcefiles]');
-                    if (sourcefilesNode.length) {
-                        $.merge(files, sourcefilesNode.attr('content').split(';'));
-                    }
-                    windowSourceCode.show('./common/source.html?files=' + encodeURIComponent(files.join(';')));
-                }
-            }, {
+           
                 type: 'tool', id: 'toolrefresh', cls: 'tabtool', tooltip: '刷新', iconFont: 'f-iconfont-refresh', marginRight: 5,
                 handler: function (event) {
                     var mainTabStrip = F.ui.mainTabStrip;
@@ -256,18 +231,6 @@
                     if (activeTab.iframe) {
                         var iframeWnd = activeTab.getIFrameWindow();
                         iframeWnd.location.reload();
-                    }
-                }
-            }, {
-                type: 'tool', id: 'toolnewtab', cls: 'tabtool', tooltip: '在新标签页中打开', iconFont: 'f-iconfont-new-tab', marginRight: 5,
-                handler: function (event) {
-                    var mainTabStrip = F.ui.mainTabStrip;
-
-                    var activeTab = mainTabStrip.getActiveTab();
-                    if (activeTab.iframe) {
-                        var iframeUrl = activeTab.getIFrameUrl();
-                        iframeUrl = iframeUrl.replace(/\/mobile\/\?file=/ig, '/mobile/');
-                        window.open(iframeUrl, '_blank');
                     }
                 }
             }, {
@@ -314,11 +277,7 @@
             });
 
 
-            // 窗口 - 查看源代码
-            F.ui({
-                type: 'window', id: 'sourcecodewindow', width: 980, height: 600, resizable: true, maximizable: true, title: '源代码', iconFont: 'f-iconfont-code', iframe: true, hidden: true
-            });
-
+        
             // 窗口 - 主题选择
             F.ui({
                 type: 'window', id: 'themewindow', width: 1000, height: 600, resizable: true, maximizable: true, minHeight: 100, minWidth: 200, title: '主题仓库', hidden: true, iframe: true, iframeUrl: './common/themes.html'
@@ -347,8 +306,8 @@
             // maxTabCount: 最大允许打开的选项卡数量
             // maxTabMessage: 超过最大允许打开选项卡数量时的提示信息
             F.initTreeTabStrip(treeMenu, mainTabStrip, {
-                maxTabCount: 10,
-                maxTabMessage: '请先关闭一些选项卡（最多允许打开 10 个）！'
+                maxTabCount: 20,
+                maxTabMessage: '请先关闭一些选项卡（最多允许打开 20 个）！'
             });
 
 
