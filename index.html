@@ -91,48 +91,53 @@
         }
 
 
+        function getMenus(data) {
+            var menuList = new Array;
+            data.data.filter(function (level) {
+                return level.TREELEVEL == 2;
+            }).forEach(function (e) {
+                var menuListChild = new Array;
+                data.data.filter(function (levChild) {
+                    return levChild.TREEID == e.FUNCID;
+                }).forEach(function (eChild) {
+                    var child = {
+                        text: eChild.FUNCNAME,
+                        href: eChild.RUNWHAT
+                    }
+                    menuListChild.push(child);
+                })
+                menu = {
+                    text: e.FUNCNAME,
+                    iconFont: e.FUNICO,
+                    children: menuListChild
+                }
+                menuList.push(menu);
+            })
+            return menuList;
+        }
         F.ready(function () {
-
-            // 顶部 - 官网首页
-            F.ui({
-                type: 'button', renderTo: '#homepage_wrap', cls: 'icononlyaction', defaultState: false, defaultCorner: false, tooltip: '官网首页', text: '', iconFont: 'f-iconfont-home', iconAlign: 'top',
-                handler: function (event) {
-                    window.open('http://fineui.com/js/', '_blank');
+            $.getJSON("AjaxBase.php?sMode=memo&var1=admin", function (data) {
+                if (data != null && data != "") {
+                    if (data.result == "succeed") {
+                        for (var i = 0; i < data.data.length; i++) {
+                            F.ui({
+                                id: data.data[i].FUNCID, type: 'button', renderTo: '#download_wrap', cls: 'icontopaction topmenu', defaultState: false, defaultCorner: false, text: data.data[i].FUNCNAME, iconFont: 'f-iconfont - mobile', iconAlign: 'top',
+                                handler: function (event) {
+                                    $.getJSON("AjaxBase.php?sMode=memo3&var1=" + this.id, function (dataMenu) {
+                                        window.MENUS = getMenus(dataMenu);
+                                        F.ui.treeMenu.rootNode.children = MENUS;
+                                        F.ui.treeMenu.loadData();
+                                    });
+                                }
+                            });
+                        }
+                    } else {
+                        return;
+                    }
+                } else {
+                    return;
                 }
             });
-
-            // 顶部 - 企业版试用
-            F.ui({
-                type: 'button', renderTo: '#download_wrap', cls: 'icontopaction download', defaultState: false, defaultCorner: false, text: '企业版试用', iconFont: 'f-iconfont-mail', iconAlign: 'top',
-                handler: function (event) {
-                    F.ui.applytrialwindow.show();
-                }
-            });
-
-            // 顶部 - 移动示例
-            F.ui({
-                type: 'button', renderTo: '#mobile_wrap', cls: 'icontopaction mobile', defaultState: false, defaultCorner: false, text: '移动示例', iconFont: 'f-iconfont-mobile', iconAlign: 'top',
-                handler: function (event) {
-                    window.location.href = './mobile/main.html';
-                }
-            });
-
-            // 顶部 - 加载动画
-            F.ui({
-                type: 'button', renderTo: '#loadingselect_wrap', cls: 'icontopaction loading', defaultState: false, defaultCorner: false, text: '加载动画', iconFont: 'f-iconfont-loading', iconAlign: 'top',
-                handler: function (event) {
-                    F.ui.loadingwindow.show();
-                }
-            });
-
-            // 顶部 - 主题仓库
-            F.ui({
-                type: 'button', renderTo: '#themeselect_wrap', cls: 'icontopaction themes', defaultState: false, defaultCorner: false, text: '主题仓库', iconFont: 'f-iconfont-skin', iconAlign: 'top',
-                handler: function (event) {
-                    F.ui.themewindow.show();
-                }
-            });
-
             // 顶部 - 当前用户头像
             F.ui({
                 type: 'button', renderTo: '#userprofile_wrap', cls: 'userpicaction', defaultState: false, defaultCorner: false, text: '咳咳', icon: './res/images/my_face_80.jpg',
@@ -257,59 +262,54 @@
 
 
             // 创建页面主体框架
-            F.ui({
-                type: 'viewport', renderTo: '#wrap1', layout: 'region', cls: 'mainpanel',
-                items: [{
-                    type: 'panel', id: 'topPanel', contentEl: '#header', header: false, border: false, region: 'top', cls: 'topregion bgpanel',
-                }, {
-                    type: 'tree', id: 'treeMenu', cls: 'leftregion bgpanel', collapsible: true, width: 220, title: '示例菜单', header: false, region: 'left', split: true, splitWidth: 2, splitIcon: false,
-                    hideHScrollbar: true, hideVScrollbar: true, expanderToRight: true, headerStyle: true, singleClickExpand: true,
-                    rootNode: {
-                        expanded: true, children: MENUS
+            $.getJSON("AjaxBase.php?sMode=memo2&var1=admin", function (data) {
+                if (data != null && data != "") {
+                    var menuList = new Array;
+                    if (data.result == "succeed") {
+                        window.MENUS = getMenus(data);
+                        // 创建页面主体框架
+                        F.ui({
+                            type: 'viewport', renderTo: '#wrap1', layout: 'region', cls: 'mainpanel',
+                            items: [{
+                                type: 'panel', id: 'topPanel', contentEl: '#header', header: false, border: false, region: 'top', cls: 'topregion bgpanel',
+                            }, {
+                                type: 'tree', id: 'treeMenu', cls: 'leftregion bgpanel', collapsible: true, width: 220, title: '菜单', header: false, region: 'left', split: true, splitWidth: 2, splitIcon: false,
+                                hideHScrollbar: true, hideVScrollbar: true, expanderToRight: true, headerStyle: true, singleClickExpand: true,
+                                rootNode: {
+                                    expanded: true, children: MENUS
+                                }
+                            }, {
+                                type: 'tabstrip', id: 'mainTabStrip', cls: 'centerregion', flex: 1, activeTabIndex: 0, enableCloseMenu: true, region: 'center',
+                                items: [{
+                                    type: 'tab', iframe: true, iframeUrl: mainPageUrl, title: '首页', iconFont: 'f-iconfont-home'
+                                }],
+                                tools: mainTabStripTools
+                            }]
+                        });
+
+
+                        var treeMenu = F.ui.treeMenu, mainTabStrip = F.ui.mainTabStrip;
+
+                        // 初始化主框架中的树(或者Accordion+Tree)和选项卡互动，以及地址栏的更新
+                        // treeMenu： 主框架中的树控件实例，或者内嵌树控件的手风琴控件实例
+                        // mainTabStrip： 选项卡实例
+                        // updateHash: 切换Tab时，是否更新地址栏Hash值（默认值：true）
+                        // refreshWhenExist： 添加选项卡时，如果选项卡已经存在，是否刷新内部IFrame（默认值：false）
+                        // refreshWhenTabChange: 切换选项卡时，是否刷新内部IFrame（默认值：false）
+                        // maxTabCount: 最大允许打开的选项卡数量
+                        // maxTabMessage: 超过最大允许打开选项卡数量时的提示信息
+                        F.initTreeTabStrip(treeMenu, mainTabStrip, {
+                            maxTabCount: 10,
+                            maxTabMessage: '请先关闭一些选项卡（最多允许打开 10 个）！'
+                        });
+
+                    } else {
+                        return;
                     }
-                }, {
-                    type: 'tabstrip', id: 'mainTabStrip', cls: 'centerregion', flex: 1, activeTabIndex: 0, enableCloseMenu: true, region: 'center',
-                    items: [{
-                        type: 'tab', iframe: true, iframeUrl: mainPageUrl, title: '首页', iconFont: 'f-iconfont-home'
-                    }],
-                    tools: mainTabStripTools
-                }]
+                } else {
+                    return;
+                }
             });
-
-
-        
-            // 窗口 - 主题选择
-            F.ui({
-                type: 'window', id: 'themewindow', width: 1000, height: 600, resizable: true, maximizable: true, minHeight: 100, minWidth: 200, title: '主题仓库', hidden: true, iframe: true, iframeUrl: './common/themes.html'
-            });
-
-            // 窗口 - 加载动画
-            F.ui({
-                type: 'window', id: 'loadingwindow', width: 1000, height: 600, resizable: true, maximizable: true, minHeight: 100, minWidth: 200, title: '加载动画', hidden: true, iframe: true, iframeUrl: './common/loading.html'
-            });
-
-            // 窗口 - 企业版试用
-            F.ui({
-                type: 'window', id: 'applytrialwindow', bodyPadding: 15, width: 450, resizable: false, maximizable: false, title: '企业版试用', hidden: true, iconFont: 'f-iconfont-mail', contentEl: '#applytrial_container'
-            });
-
-
-
-            var treeMenu = F.ui.treeMenu, mainTabStrip = F.ui.mainTabStrip;
-
-            // 初始化主框架中的树(或者Accordion+Tree)和选项卡互动，以及地址栏的更新
-            // treeMenu： 主框架中的树控件实例，或者内嵌树控件的手风琴控件实例
-            // mainTabStrip： 选项卡实例
-            // updateHash: 切换Tab时，是否更新地址栏Hash值（默认值：true）
-            // refreshWhenExist： 添加选项卡时，如果选项卡已经存在，是否刷新内部IFrame（默认值：false）
-            // refreshWhenTabChange: 切换选项卡时，是否刷新内部IFrame（默认值：false）
-            // maxTabCount: 最大允许打开的选项卡数量
-            // maxTabMessage: 超过最大允许打开选项卡数量时的提示信息
-            F.initTreeTabStrip(treeMenu, mainTabStrip, {
-                maxTabCount: 20,
-                maxTabMessage: '请先关闭一些选项卡（最多允许打开 20 个）！'
-            });
-
 
             /*
             // 初始化 - 从 Cookie 中读取主题名称
@@ -326,23 +326,23 @@
             */
 
             // 站点信息
-            var notifyMsg = [];
-            notifyMsg.push('Examples:</td><td>' + F.ui.treeMenu.getNodeCount(true));
-            notifyMsg.push('DisplayMode:</td><td>' + F.displayMode);
-            notifyMsg.push('Language:</td><td>' + F.language);
-            notifyMsg.push('Theme:</td><td>' + F.theme);
-            notifyMsg.push('Version:</td><td>' + F.version);
-            F.notify({
-                message: '<table><tr><td>' + notifyMsg.join('</td></tr><tr><td>') + '</td></tr></table>',
-                width: 235,
-                messageIcon: '',
-                target: '_top',
-                header: false,
-                displayMilliseconds: 8 * 1000,
-                positionX: 'right',
-                positionY: 'bottom'
-            });
-
+            // var notifyMsg = [];
+            // notifyMsg.push('Examples:</td><td>' + F.ui.treeMenu.getNodeCount(true));
+            // notifyMsg.push('DisplayMode:</td><td>' + F.displayMode);
+            // notifyMsg.push('Language:</td><td>' + F.language);
+            // notifyMsg.push('Theme:</td><td>' + F.theme);
+            // notifyMsg.push('Version:</td><td>' + F.version);
+            // F.notify({
+            //     message: '<table><tr><td>' + notifyMsg.join('</td></tr><tr><td>') + '</td></tr></table>',
+            //     width: 235,
+            //     messageIcon: '',
+            //     target: '_top',
+            //     header: false,
+            //     displayMilliseconds: 8 * 1000,
+            //     positionX: 'right',
+            //     positionY: 'bottom'
+            // });
+                    
         });
 
 
