@@ -59,18 +59,24 @@ header("Content-Type:text/html;charset=utf-8;");
                     case "memo3":
                         if (strlen($var1) > 0)
                         {
+                            $sqlgetvar=@"SELECT getChildlst($var1) str";
+                            $res=mysqli_query($con,$sqlgetvar);
+                            while($row = $res->fetch_assoc()) {  
+                                $str=$row["str"];
+                            }
                             $sql = @" SELECT * FROM sys_funcrole
-                            WHERE  FIND_IN_SET(funcid, getChildLst($var1))  ";
+                            WHERE roleid='00' and FIND_IN_SET(funcid,'$str') ORDER BY  FUNCID ASC ";
                        $result=mysqli_query($con,$sql);
                        $arr=array();
                        while($row = $result->fetch_assoc()) {  
                            $count=count($row);//不能在循环语句中，由于每次删除row数组长度都减小  
-                        //    for($i=0;$i<$count;$i++){  
-                        //        unset($row[$i]);//删除冗余数据  
-                        //    }  
+                           for($i=0;$i<$count;$i++){  
+                               unset($row[$i]);//删除冗余数据  
+                           }  
                            array_push($arr,$row);  
                          
                        }  
+     
                        //echo json_encode($arr,JSON_UNESCAPED_UNICODE);
                        AjaxBase::MyJsonPrint($arr,true);
 

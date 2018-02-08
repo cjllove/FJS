@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -11,6 +12,7 @@
     <link href="./res/css/index.css" rel="stylesheet" />
 
 </head>
+
 <body class="defaultpage">
     <div id="wrap1"></div>
 
@@ -115,6 +117,7 @@
             })
             return menuList;
         }
+
         F.ready(function () {
             $.getJSON("AjaxBase.php?sMode=memo&var1=admin", function (data) {
                 if (data != null && data != "") {
@@ -138,6 +141,7 @@
                     return;
                 }
             });
+
             // 顶部 - 当前用户头像
             F.ui({
                 type: 'button', renderTo: '#userprofile_wrap', cls: 'userpicaction', defaultState: false, defaultCorner: false, text: '咳咳', icon: './res/images/my_face_80.jpg',
@@ -227,7 +231,7 @@
 
             // 中间 - 选项卡右侧工具图标列表
             var mainTabStripTools = [{
-           
+
                 type: 'tool', id: 'toolrefresh', cls: 'tabtool', tooltip: '刷新', iconFont: 'f-iconfont-refresh', marginRight: 5,
                 handler: function (event) {
                     var mainTabStrip = F.ui.mainTabStrip;
@@ -342,11 +346,12 @@
             //     positionX: 'right',
             //     positionY: 'bottom'
             // });
-                    
+
         });
 
 
     </script>
 
 </body>
+
 </html>
