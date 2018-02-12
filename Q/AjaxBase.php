@@ -40,21 +40,27 @@ header("Content-Type:text/html;charset=utf-8;");
                     case "memo2":
                         if (strlen($var1) > 0)
                         {
-                            $sql = @"select * from (SELECT * FROM sys_funcrole WHERE treeid='00' AND FUNCID=1 )t
-     ORDER BY t.funcid ";
-                            $result=mysqli_query($con,$sql);
-                            $arr=array();
-                            while($row = $result->fetch_assoc()) {  
-                                $count=count($row);//不能在循环语句中，由于每次删除row数组长度都减小  
-                                for($i=0;$i<$count;$i++){  
-                                    unset($row[$i]);//删除冗余数据  
-                                }  
-                                array_push($arr,$row);  
-                              
-                            }  
-                            //echo json_encode($arr,JSON_UNESCAPED_UNICODE);
-                            AjaxBase::MyJsonPrint($arr,true);
-                        }
+                            $sqlgetvar=@"SELECT getChildlst('1') str";
+                            $res=mysqli_query($con,$sqlgetvar);
+                            while($row = $res->fetch_assoc()) {  
+                                $str=$row["str"];
+                            }
+                            $sql = @" SELECT * FROM sys_funcrole
+                            WHERE roleid='00' and FIND_IN_SET(funcid,'$str') ORDER BY  FUNCID ASC ";
+                       $result=mysqli_query($con,$sql);
+                       $arr=array();
+                       while($row = $result->fetch_assoc()) {  
+                           $count=count($row);//不能在循环语句中，由于每次删除row数组长度都减小  
+                           for($i=0;$i<$count;$i++){  
+                               unset($row[$i]);//删除冗余数据  
+                           }  
+                           array_push($arr,$row);  
+                         
+                       }  
+     
+                       //echo json_encode($arr,JSON_UNESCAPED_UNICODE);
+                       AjaxBase::MyJsonPrint($arr,true);
+                    }
                         break;
                     case "memo3":
                         if (strlen($var1) > 0)

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
-    <title>威高讯通智能化院内物流管理系统</title>
+    <title>CC智能化物流管理系统</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <link href="./f/f.css" rel="stylesheet" />
     <link href="./res/css/common.css" rel="stylesheet" />
@@ -21,7 +21,7 @@
             <tr>
                 <td>
                     <div id="homepage_wrap" class="f-inline-block"></div>
-                    <a class="logo">威高讯通智能化院内物流管理系统</a>
+                    <a class="logo">CC智能化物流管理系统</a>
                 </td>
                 <td style="text-align: right;">
                     <div id="download_wrap" class="f-inline-block"></div>
@@ -44,7 +44,7 @@
         var cookieMenuMode = F.cookie('MenuMode') || 'normal';
         var cookieLanguage = F.cookie('Language');
 
-        var mainPageUrl = './common/main.html';
+        var mainPageUrl = './common/main.html';      
         if (cookieThemeName === 'bootstrap_pure') {
             mainPageUrl = './common/main_bootstrap_pure.html';
         }
@@ -133,6 +133,8 @@
                                     });
                                 }
                             });
+                            // fid=data.data[0].FUNCID;                         
+                            // fname=data.data[0].FUNCNAME;
                         }
                     } else {
                         return;
@@ -141,6 +143,8 @@
                     return;
                 }
             });
+            
+
 
             // 顶部 - 当前用户头像
             F.ui({
