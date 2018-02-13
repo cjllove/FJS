@@ -6,7 +6,7 @@ header("Content-Type:text/html;charset=utf-8;");
      class AjaxBase
     {
 
-        public static function ProcessRequest()
+        public static  function ProcessRequest()
         {
             if ($_GET["sMode"] != null &&  $_GET["var1"]!=null)
             {
