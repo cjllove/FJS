@@ -29,7 +29,7 @@
         F.ready(function () {
  
             F.ui({
-                type: 'panel', renderTo: '#wrap1', width: 850, height: 350, bodyPadding: 5, collapsible: true, title: '面板（layout=hbox）',
+                type: 'panel', renderTo: '#wrap1',  height: 350, bodyPadding: 5, collapsible: true, title: '面板（layout=hbox）',
                 layout: {
                     childMargin: '0 0 5 0', type: 'vbox'
                 },
@@ -58,34 +58,49 @@
             });
  
  
-            F.ui({
-                type: 'panel', renderTo: '#wrap2', width: 850, height: 350, bodyPadding: 5, collapsible: true, title: '面板（layout=column）',
-                layout: {
-                    childMargin: '0 0 5 0', type: 'vbox'
-                },
-                items: [{
-                    type: 'form', id: 'form2', cls: 'mysimpleform', layout: 'column', border: false, collapsible: true, header: false,
-                    items: [{
-                        type: 'label', value: '销毁统计时间段：'
-                    }, {
-                        type: 'datepicker', id: 'datepicker3', cls: 'marginr', width: 150, hideLabel: true, fieldLabel: '销毁统计开始时间', required: true, emptyText: '请选择开始日期', editable: false
-                    }, {
-                        type: 'datepicker', cls: 'marginr', width: 150, hideLabel: true, fieldLabel: '销毁统计结束时间', required: true, compareControl: 'datepicker3', compareOperator: '>', compareMessage: '结束日期应该大于开始日期', emptyText: '请选择结束日期', editable: false
-                    }, {
-                        type: 'button', cls: 'marginr', text: '重置起止时间',
-                        handler: function () {
-                            F.ui.form2.reset();
-                        }
-                    }, {
-                        type: 'button', text: '查询', validateForm: 'form2',
-                        handler: function () {
-                            F.alert('表单验证通过！');
-                        }
-                    }]
-                }, {
-                    type: 'panel', margin: 0, flex: 1, header: false
-                }]
-            });
+ var DATA = {
+     "fields": ["name", "gender", "entranceYear", "atSchool", "major", "logTime"],
+     "data": [
+         ["张萍萍", "女", "2000", true, "材料科学与工程系", "2015-03-10"],
+         ["陈飞", "男", "2000", false, "化学系", "2015-03-10"],
+         ["董婷婷", "女", "2000", true, "化学系", "2015-03-10"],
+         ["刘国", "男", "2002", false, "化学系", "2015-03-10"],
+         ["康颖颖", "女", "2008", true, "数学系", "2015-04-19"],
+         ["彭博", "男", "2008", false, "数学系", "2015-04-29"],
+         ["黄婷婷", "女", "2008", true, "数学系", "2015-04-29"],
+         ["唐超", "男", "2004", false, "物理系", "2015-04-29"],
+         ["杨婷婷", "女", "2004", true, "物理系", "2015-04-29"],
+         ["徐鹏", "男", "2002", false, "物理系", "2015-04-29"],
+         ["董国", "男", "2012", true, "自动化系", "2015-06-13"],
+         ["张三石", "男", "2012", true, "材料科学与工程系", "2015-06-13"]
+     ]
+ };
+
+ F.ui({
+     type: 'grid', id: 'grid1', renderTo: '#wrap1',  collapsible: true, title: '表格',
+     columns: [{
+         columnType: 'rownumberfield'
+     }, {
+         text: '姓名', field: 'name', width: 100
+     }, {
+         text: '性别', field: 'gender', width: 80
+     }, {
+         text: '入学年份', field: 'entranceYear', width: 80
+     }, {
+         text: '是否在校', field: 'atSchool', width: 80, columnType: 'checkboxfield'
+     }, {
+         text: '所学专业', field: 'major', flex: 1,
+         renderer: function (value, params) {
+             return '<a href="http://gsa.ustc.edu.cn/search?q=' + encodeURIComponent(value) + '" target="_blank">' + value + '</a>';
+         }
+     }, {
+         text: '注册日期', field: 'logTime', width: 100
+     }],
+     data: DATA
+ });
+
+
+
  
  
  
