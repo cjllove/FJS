@@ -48,7 +48,9 @@
                         }
                     }, {
                         type: 'button', text: '查询', validateForm: 'form1',
-                        handler: function () {
+                        handler: function (event) {
+                            $.get("./controller/Goodsmanager.php");
+                            
                             F.alert('表单验证通过！');
                         }
                     }]
@@ -59,36 +61,19 @@
  
  
  var DATA = {$arrfun};
-//  {
-//      "fields": ["name", "gender", "entranceYear", "atSchool", "major", "logTime"],
-//      "data": [
-//          ["张萍萍", "女", "2000", true, "材料科学与工程系", "2015-03-10"],
-//          ["陈飞", "男", "2000", false, "化学系", "2015-03-10"],
-//          ["董婷婷", "女", "2000", true, "化学系", "2015-03-10"],
-//          ["刘国", "男", "2002", false, "化学系", "2015-03-10"],
-//          ["康颖颖", "女", "2008", true, "数学系", "2015-04-19"],
-//          ["彭博", "男", "2008", false, "数学系", "2015-04-29"],
-//          ["黄婷婷", "女", "2008", true, "数学系", "2015-04-29"],
-//          ["唐超", "男", "2004", false, "物理系", "2015-04-29"],
-//          ["杨婷婷", "女", "2004", true, "物理系", "2015-04-29"],
-//          ["徐鹏", "男", "2002", false, "物理系", "2015-04-29"],
-//          ["董国", "男", "2012", true, "自动化系", "2015-06-13"],
-//          ["张三石", "男", "2012", true, "材料科学与工程系", "2015-06-13"]
-//      ]
-//  };
 
  F.ui({
-     type: 'grid', id: 'grid1', renderTo: '#wrap1',  collapsible: true, title: '表格',
+     type: 'grid', id: 'grid1', renderTo: '#wrap1',  collapsible: true, title: '表格',paging:true,pageSize:20,
      columns: [{
          columnType: 'rownumberfield'
      }, {
-         text: '姓名', field: 'name', width: 100
+         text: 'ID', field: 'funcid', width: 120
      }, {
-         text: '性别', field: 'gender', width: 80
+         text: '名称', field: 'funcname', width: 180
      }, {
-         text: '入学年份', field: 'entranceYear', width: 80
+         text: '路径', field: 'runwhat', width: 380
      }, {
-         text: '是否在校', field: 'atSchool', width: 80, columnType: 'checkboxfield'
+         text: '提示信息', field: 'micohelp', width: 80, columnType: 'checkboxfield'
      }, {
          text: '所学专业', field: 'major', flex: 1,
          renderer: function (value, params) {
