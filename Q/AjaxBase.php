@@ -1,16 +1,27 @@
 ﻿<?php
 header("Content-Type:text/html;charset=utf-8;");
-
+session_start();
+if(!isset($_SESSION['T']))
+{
+    header('Location: LogIn.html');
+}
 
 //namespace FineUi_Js
      class AjaxBase
     {
+public  function  __construct()
+{
+    if(!isset($_SESSION['T']))
+    {
+        header('Location: LogIn.html');
+    }
+}
 
-        public static  function ProcessRequest()
+         public static  function ProcessRequest()
         {
-            if ($_GET["sMode"] != null &&  $_GET["var1"]!=null)
+            if (isset($_GET["sMode"]) &&  isset($_GET["var1"]))
             {
-                $con=mysqli_connect("localhost","cjl","cjl","cjl");
+                $con=mysqli_connect("localhost","fjs","fjs","fjs");
                 mysqli_set_charset($con,'utf8');
 
                  $mode = $_GET["sMode"];//模式
@@ -104,8 +115,36 @@ header("Content-Type:text/html;charset=utf-8;");
             echo($res);
             return $res;
         }
+         public static function  CheckIsLog()
+         {
+             $Larr=array('ISL'=>true);
+             if(!isset($_SESSION['T']))
+             {
+                 $Larr = array('ISL' => false);
 
+             }
+             else
+             {
+
+             }
+             echo json_encode($Larr, JSON_UNESCAPED_UNICODE);
+         }
+         public  static  function  LogOut()
+         {
+             $_SESSION['T']='';
+             $_SESSION=array();
+             session_destroy();
+             $Larr=array('ISLOUT'=>true);
+             echo json_encode($Larr, JSON_UNESCAPED_UNICODE);
+
+         }
      
     }
+//AjaxBase::CheckIsLog();
+$obj=new AjaxBase();
    AjaxBase::ProcessRequest();
+if(isset($_GET['O']) && $_GET['O']='LogOut')
+{
+    AjaxBase::LogOut();
+}
 ?>

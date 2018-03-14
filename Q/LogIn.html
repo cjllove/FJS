@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+
+
+    <link href="./F/F.css" rel="stylesheet"/>
+    <link href="./res/css/common.css" rel="stylesheet"/>
+</head>
+<body>
+
+
+<script src="./F/F.js"></script>
+<script src="./res/js/common.js"></script>
+<script>
+    F.ready(function () {
+
+        F.ui({
+            type: 'window',
+            id: 'window1',
+            layout: 'anchor',
+            width: 350,
+            bodyPadding: '10px',
+            title: '登录系统',
+            modal: false,
+            closable: false,
+            goldenPosition: true,
+            renderTo: document.body,
+            fieldDefaults: {
+                labelWidth: 80
+            },
+            items: [{
+                type: 'textbox',
+                id: 'tbxUserName',
+                redStar: true,
+                fieldLabel: '用户名',
+                required: true,
+                enterFocusControl: 'tbxPassword'
+            }, {
+                type: 'textbox',
+                id: 'tbxPassword',
+                redStar: true,
+                fieldLabel: '密码',
+                required: true,
+                inputType: 'password',
+                enterClickControl: 'btnLogin'
+            }],
+            bars: [{
+                type: 'toolbar', align: 'right', position: 'bottom',
+                items: [{
+                    type: 'button', id: 'btnLogin', text: '登录', validateForm: 'window1', validateTarget: '_top',
+                    handler: function () {
+                        $.getJSON('LogIn.php', {
+                            'O': 'CheckLogIn',
+                            'N': F.ui.tbxUserName.getValue(),
+                            'P': F.ui.tbxPassword.getValue()
+                        }, function (data) {
+                            if (data.L) {
+                                self.location = 'index.html';
+                            }
+                            else {
+                                F.alert({message: '用户名/密码错误'});
+                            }
+
+                        });
+                    }
+                }, {
+                    type: 'button', text: '重置',
+                    handler: function () {
+                        F.reset();
+                    }
+                }]
+            }]
+        });
+
+
+    });
+</script>
+</body>
+</html>
