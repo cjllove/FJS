@@ -11,7 +11,7 @@ class AjaxBase
     public function __construct()
     {
         if (!isset($_SESSION['T'])) {
-         //header('Location: LogIn.html');
+            //header('Location: LogIn.html');
         }
     }
 

@@ -1,5 +1,5 @@
 <?php
-
+require_once ('../H/application/database.php');
 class LogIn
 {
     protected $Larr = array();
