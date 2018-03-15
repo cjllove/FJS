@@ -8,7 +8,7 @@ class LogIn
 
     public function __construct()
     {
-        session_start();
+        session_start(20);
     }
 
     public function LogOper()
